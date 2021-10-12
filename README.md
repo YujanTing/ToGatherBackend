@@ -3,7 +3,7 @@
 pip install django  
 pip install djangorestframework  
 pyton manager.py runserver  
-python manager.py createsuperuse  
+python manager.py createsuperuser
 
 http://127.0.0.1:8000/admin
 
