@@ -22,6 +22,7 @@ from rest_framework import routers
 from events import views
 router = routers.DefaultRouter()
 router.register(r'events', views.EventViewSet)
+router.register(r'users', views.UserViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
