@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import Event
+from .models import Event, User_special
 from .serializers import EventSerializer, UserSerializer
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -16,7 +16,7 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User_special.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
