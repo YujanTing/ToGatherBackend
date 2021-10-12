@@ -2,11 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
-EventTypes = [
+EventCultures = [
     (0, "Chinese"),
     (1, "Japanese"),
     (2, "Korean"),
     (3, "Thai")
+]
+
+EventTypes =[
+    (0, "Food & Cooking"),
+    (1, "Art & Media"),
+    (2, "Sport & Health"),
+    (3, "Business & Career"),
+    (4, "Outdoor & Adventure"),
+    (5, "Language & Culture"),
+    (6, "Others")
 ]
 
 States = [('AL', 'Alabama'),
@@ -36,18 +46,23 @@ genders = [('M', 'Male'),
 # Create your models here.
 
 class User_special(User):
-    user_age = models.IntegerField(blank=True, verbose_name='Age')
-    user_birthday = models.DateField(blank=True, verbose_name='Birthday')
+    user_age = models.IntegerField(blank=True, verbose_name='Age', null=True)
+    user_birthday = models.DateField(blank=True, verbose_name='Birthday', null=True)
     user_gender = models.CharField(max_length=10, blank=True, choices=genders, verbose_name='Gender')
-    user_avatar = models.ImageField(blank=False, verbose_name='Avatar')
+    user_avatar = models.ImageField(blank=True, verbose_name='Avatar', null=True)
     # user_followers = models.ForeignKey(User_special)
 
 class Event(models.Model):
-    event_type = models.SmallIntegerField(blank=False, choices=EventTypes, verbose_name="Culture")
+    event_culture = models.SmallIntegerField(blank=False, choices=EventCultures, verbose_name="Culture", default=None)
+    event_type = models.SmallIntegerField(blank=False, choices=EventTypes, verbose_name="Type")
     event_name = models.CharField(max_length=258, blank=False, verbose_name="Event Title")
     event_location = models.CharField(max_length=20, choices=States, blank=False, verbose_name='Location')
     event_description = models.TextField(max_length=1024, verbose_name='Description')
     creator = models.ForeignKey(to=User_special, related_name='User', verbose_name='Creator', null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField(verbose_name='Created Date', default=datetime.now)
     modified_date = models.DateTimeField(verbose_name="Modified Date", default=datetime.now)
-    participant = models.ManyToManyField(to=User_special, related_name='Event')
+    event_cover_image = models.ImageField(blank=True, verbose_name="Cover Image")
+    event_more_image = models.ImageField(blank=True, verbose_name="More Image")
+    event_price = models.CharField(verbose_name="Event price", blank=False, max_length=20)
+    participant = models.ManyToManyField(to=User_special, related_name='Event', blank=True)
+
