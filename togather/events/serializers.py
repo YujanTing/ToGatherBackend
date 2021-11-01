@@ -19,7 +19,8 @@ class EventSerializer(serializers.ModelSerializer):
                   'event_cover_image',
                   'event_more_image',
                   'event_price',
-                  'participant']
+                  'participant',
+                  'favorited_by']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
                   'user_age',
                   'user_birthday',
                   'user_gender',
-                  'user_avatar']
+                  'user_avatar',
+                  'user_follower',
+                  'user_following']
