@@ -44,13 +44,15 @@ genders = [('M', 'Male'),
 
 
 # Create your models here.
-
 class User_special(User):
     user_age = models.IntegerField(blank=True, verbose_name='Age', null=True)
     user_birthday = models.DateField(blank=True, verbose_name='Birthday', null=True)
     user_gender = models.CharField(max_length=10, blank=True, choices=genders, verbose_name='Gender')
     user_avatar = models.ImageField(blank=True, verbose_name='Avatar', null=True)
-    # user_followers = models.ForeignKey(User_special)
+    user_follower = models.ManyToManyField('self')
+    user_following = models.ManyToManyField('self')
+    user_blacklist = models.ManyToManyField('self')
+
 
 class Event(models.Model):
     event_culture = models.SmallIntegerField(blank=False, choices=EventCultures, verbose_name="Culture", default=None)
@@ -62,7 +64,7 @@ class Event(models.Model):
     created_date = models.DateTimeField(verbose_name='Created Date', default=datetime.now)
     modified_date = models.DateTimeField(verbose_name="Modified Date", default=datetime.now)
     event_cover_image = models.ImageField(blank=True, verbose_name="Cover Image")
-    event_more_image = models.ImageField(blank=True, verbose_name="More Image")
     event_price = models.CharField(verbose_name="Event price", blank=False, max_length=20)
+    event_capacity = models.CharField(verbose_name='Capacity', blank=False, max_length=20)
     participant = models.ManyToManyField(to=User_special, related_name='Event', blank=True)
-
+    favorited_by = models.ManyToManyField(to=User_special, related_name='Favorited_by', blank=True)
