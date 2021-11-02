@@ -1,3 +1,8 @@
+import os
+import sys
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -42,13 +47,18 @@ genders = [('M', 'Male'),
            ('F', 'Female'),
            ('O', 'Other')]
 
+def upload_to(instance, filename):
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 
 # Create your models here.
 class User_special(User):
     user_age = models.IntegerField(blank=True, verbose_name='Age', null=True)
     user_birthday = models.DateField(blank=True, verbose_name='Birthday', null=True)
     user_gender = models.CharField(max_length=10, blank=True, choices=genders, verbose_name='Gender')
-    user_avatar = models.ImageField(blank=True, verbose_name='Avatar', null=True)
+    user_avatar = models.ImageField(upload_to=upload_to, blank=True, verbose_name='Avatar', null=True)
     user_follower = models.ManyToManyField('self')
     user_following = models.ManyToManyField('self')
     user_blacklist = models.ManyToManyField('self')
@@ -63,7 +73,7 @@ class Event(models.Model):
     creator = models.ForeignKey(to=User_special, related_name='User', verbose_name='Creator', null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField(verbose_name='Created Date', default=datetime.now)
     modified_date = models.DateTimeField(verbose_name="Modified Date", default=datetime.now)
-    event_cover_image = models.ImageField(blank=True, verbose_name="Cover Image")
+    event_cover_image = models.ImageField(upload_to=upload_to, blank=True, verbose_name="Cover Image")
     event_price = models.CharField(verbose_name="Event price", blank=False, max_length=20)
     event_capacity = models.CharField(verbose_name='Capacity', blank=False, max_length=20)
     participant = models.ManyToManyField(to=User_special, related_name='Event', blank=True)
