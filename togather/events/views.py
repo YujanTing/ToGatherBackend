@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import Event, User_special
+from .models import Event, User_Special
 from .serializers import EventSerializer, UserSerializer
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -28,7 +28,7 @@ class EventViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User_special.objects.all()
+    queryset = User_Special.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
     parser_classes = [MultiPartParser, FormParser]
