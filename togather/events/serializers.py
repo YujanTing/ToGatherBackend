@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Event
-from .models import User_special
+from .models import User_Special
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from rest_framework.serializers import ModelSerializer
@@ -20,6 +20,7 @@ class EventSerializer(serializers.ModelSerializer):
                   'modified_date',
                   'event_cover_image',
                   'event_price',
+                  'event_capacity',
                   'participant',
                   'favorited_by']
 
@@ -30,7 +31,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User_special
+        model = User_Special
         fields = ['id',
                   'username',
                   'user_age',
@@ -38,7 +39,15 @@ class UserSerializer(serializers.ModelSerializer):
                   'user_gender',
                   'user_avatar',
                   'user_follower',
-                  'user_following']
+                  'user_following',
+                  'user_blacklist',
+                  'user_interest_culture1',
+                  'user_interest_culture2',
+                  'user_interest_culture3',
+                  'user_interest_type1',
+                  'user_interest_type2',
+                  'user_interest_type3',
+                  'user_introduction']
 
         def save(self, *args, **kwargs):
             if self.instance.user_avatar:
