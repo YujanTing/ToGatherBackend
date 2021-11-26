@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework import permissions
 from .models import Event
 from .models import User_special
 from django.contrib.auth.models import User
@@ -8,9 +9,11 @@ User = get_user_model()
 
 
 class EventSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Event
-        fields = ['event_culture',
+        fields = ['id',
+                  'event_culture',
                   'event_type',
                   'event_name',
                   'event_location',
@@ -18,7 +21,6 @@ class EventSerializer(serializers.ModelSerializer):
                   'creator',
                   'created_date',
                   'modified_date',
-                  'event_cover_image',
                   'event_price',
                   'participant',
                   'favorited_by']
@@ -31,8 +33,12 @@ class EventSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User_special
+        extra_kwargs = {
+            'username': {'validators': []},
+        }
         fields = ['id',
                   'username',
+                  'password',
                   'user_age',
                   'user_birthday',
                   'user_gender',

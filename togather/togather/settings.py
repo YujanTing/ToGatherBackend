@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'events',
     'rest_framework',
     "rest_framework.authtoken",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +136,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "myproject", "media")
 MEDIA_URL = "/media/"
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+    'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
     ]
 }

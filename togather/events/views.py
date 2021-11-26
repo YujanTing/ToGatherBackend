@@ -19,27 +19,35 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     parser_classes = [MultiPartParser, FormParser]
 
-    def update(self, request, *args, **kwargs):
-        serializer = EventSerializer(data=request.data, instance=request.user)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    filter_fields = (
+        'id',
+        'event_culture',
+        'event_type',
+        'event_name',
+        'event_location'
+    )
+
+    # def update(self, request, *args, **kwargs):
+    #     serializer = EventSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+    #     else:
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User_special.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
     parser_classes = [MultiPartParser, FormParser]
-
-    def update(self, request, *args, **kwargs):
-        serializer = UserSerializer(data=request.data, instance=request.user)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #
+    # def update(self, request, *args, **kwargs):
+    #     serializer = UserSerializer(data=request.data, )
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+    #     else:
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
